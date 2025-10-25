@@ -1,0 +1,11 @@
+me/rootvortex/simpleChat/commands/HideChatCommand.class
+me/rootvortex/simpleChat/commands/UnignoreAllCommand.class
+me/rootvortex/simpleChat/managers/ChatManager.class
+me/rootvortex/simpleChat/commands/IgnoreListCommand.class
+me/rootvortex/simpleChat/SimpleChat.class
+me/rootvortex/simpleChat/commands/IgnoreCommand.class
+me/rootvortex/simpleChat/listeners/ChatListener.class
+me/rootvortex/simpleChat/commands/SimpleCommand.class
+me/rootvortex/simpleChat/commands/ReplyCommand.class
+me/rootvortex/simpleChat/commands/UnignoreCommand.class
+me/rootvortex/simpleChat/commands/MessageCommand.class

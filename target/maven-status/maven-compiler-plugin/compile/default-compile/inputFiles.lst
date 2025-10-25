@@ -1,0 +1,11 @@
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/SimpleChat.java
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/HideChatCommand.java
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/IgnoreCommand.java
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/IgnoreListCommand.java
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/MessageCommand.java
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/ReplyCommand.java
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/SimpleCommand.java
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/UnignoreAllCommand.java
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/UnignoreCommand.java
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/listeners/ChatListener.java
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/managers/ChatManager.java
