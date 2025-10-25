@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.SimplePluginManager;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -52,15 +51,14 @@ public abstract class SimpleCommand implements TabExecutor {
 
     private CommandMap getCommandMap() {
         try {
-            if (Bukkit.getPluginManager() instanceof SimplePluginManager) {
-                Field field = SimplePluginManager.class.getDeclaredField("commandMap");
-                field.setAccessible(true);
-                return (CommandMap) field.get(Bukkit.getPluginManager());
-            }
+            // Use direct server access instead of SimplePluginManager
+            Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            commandMapField.setAccessible(true);
+            return (CommandMap) commandMapField.get(Bukkit.getServer());
         } catch (Exception e) {
-            e.printStackTrace();
+            Bukkit.getLogger().warning("Failed to get CommandMap: " + e.getMessage());
+            return null;
         }
-        return null;
     }
 
     protected abstract String getCommandName();
