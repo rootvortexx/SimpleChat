@@ -78,6 +78,10 @@ public class MessageCommand extends SimpleCommand {
                     completions.add(player.getName());
                 }
             }
+        } else if (args.length == 2 && sender instanceof Player) {
+            // Show <message> as a visual hint but return empty list so it doesn't auto-complete
+            // This makes it appear in the suggestion list but not actually write to the command
+            return new ArrayList<>();
         }
 
         return completions;
