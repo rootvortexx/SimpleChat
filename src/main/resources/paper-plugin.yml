@@ -1,6 +1,31 @@
 name: SimpleChat
-version: '1.0'
+version: '1.0.0'
 main: me.rootvortex.simpleChat.SimpleChat
 api-version: '1.21'
-authors: [ RootVortex ]
-description: A chat plugin for single server
+author: RootVortex
+description: Simple chat management with ignore features
+
+commands:
+  hidechat:
+    description: Toggle visibility of all chat messages
+    usage: /hidechat
+  ignore:
+    description: Ignore a specific player's messages
+    usage: /ignore <player>
+  unignore:
+    description: Stop ignoring a player
+    usage: /unignore <player>
+  ignorelist:
+    description: Show list of ignored players
+    usage: /ignorelist
+  unignoreall:
+    description: Unignore all players
+    usage: /unignoreall
+  msg:
+    description: Send a private message
+    usage: /msg <player> <message>
+    aliases: [whisper, tell, w]
+  reply:
+    description: Reply to last private message
+    usage: /reply <message>
+    aliases: [r]
