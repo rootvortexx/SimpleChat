@@ -9,3 +9,4 @@
 /home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/UnignoreCommand.java
 /home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/listeners/ChatListener.java
 /home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/managers/ChatManager.java
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/managers/DatabaseManager.java

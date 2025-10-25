@@ -1,0 +1,32 @@
+# SimpleChat Database Configuration
+#
+# Database Configuration
+database:
+  # Database type: sqlite or mysql
+  # sqlite: Uses local file (plugins/SimpleChat/data.db) - No setup required
+  # mysql: Uses remote MySQL server - Requires database setup
+  type: "sqlite"
+
+  # MySQL Configuration (only used if type is mysql)
+  mysql:
+    # MySQL server hostname or IP address
+    host: "localhost"
+    # MySQL server port (default: 3306)
+    port: "3306"
+    # Database name to use
+    database: "minecraft"
+    # MySQL username
+    username: "root"
+    # MySQL password
+    password: ""
+    # Use SSL for connection (recommended for remote databases)
+    use-ssl: false
+
+# Plugin Settings
+settings:
+  # Whether to save data to database (recommended: true)
+  use-database: true
+  # Cache duration in minutes (0 = no caching)
+  cache-duration: 10
+  # Whether to enable debug messages
+  debug: false

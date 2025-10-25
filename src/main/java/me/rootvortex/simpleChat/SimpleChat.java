@@ -3,24 +3,118 @@ package me.rootvortex.simpleChat;
 import me.rootvortex.simpleChat.commands.*;
 import me.rootvortex.simpleChat.listeners.ChatListener;
 import me.rootvortex.simpleChat.managers.ChatManager;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class SimpleChat extends JavaPlugin {
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
+
+public final class SimpleChat extends JavaPlugin implements Listener {
 
     private ChatManager chatManager;
+    private File databaseConfigFile;
+    private FileConfiguration databaseConfig;
 
     @Override
     public void onEnable() {
-        // Initialize manager
-        this.chatManager = new ChatManager();
+        // Create and load database.yml
+        setupDatabaseConfig();
+
+        // Initialize manager with database support
+        try {
+            this.chatManager = new ChatManager(this);
+            getLogger().info("ChatManager initialized successfully");
+        } catch (Exception e) {
+            getLogger().severe("Failed to initialize ChatManager: " + e.getMessage());
+            e.printStackTrace();
+            // Disable plugin if database fails to initialize
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
 
         // Register events
         getServer().getPluginManager().registerEvents(new ChatListener(chatManager), this);
+        getServer().getPluginManager().registerEvents(this, this); // Register for quit events
 
         // Register commands using Paper CommandAPI
         registerCommands();
 
-        getLogger().info("SimpleChat has been enabled!");
+        getLogger().info("SimpleChat has been enabled with database support!");
+        getLogger().info("Database type: " + getDatabaseConfig().getString("database.type", "sqlite"));
+
+        // Test database connection
+        if (chatManager.testDatabaseConnection()) {
+            getLogger().info("Database connection test: SUCCESS");
+        } else {
+            getLogger().warning("Database connection test: FAILED - using memory cache only");
+        }
+    }
+
+    private void setupDatabaseConfig() {
+        databaseConfigFile = new File(getDataFolder(), "database.yml");
+
+        if (!databaseConfigFile.exists()) {
+            // Create data folder if it doesn't exist
+            if (!getDataFolder().exists()) {
+                getDataFolder().mkdirs();
+            }
+
+            // Copy default database.yml from resources
+            try (InputStream inputStream = getResource("database.yml")) {
+                if (inputStream != null) {
+                    Files.copy(inputStream, databaseConfigFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    getLogger().info("Created default database.yml configuration file");
+                } else {
+                    getLogger().warning("Could not find database.yml in resources, creating empty file");
+                    databaseConfigFile.createNewFile();
+                }
+            } catch (Exception e) {
+                getLogger().severe("Failed to create database.yml: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        reloadDatabaseConfig();
+    }
+
+    public void reloadDatabaseConfig() {
+        databaseConfig = YamlConfiguration.loadConfiguration(databaseConfigFile);
+
+        // Set defaults from embedded resource
+        try (InputStream defaultStream = getResource("database.yml")) {
+            if (defaultStream != null) {
+                YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultStream));
+                databaseConfig.setDefaults(defaultConfig);
+                databaseConfig.options().copyDefaults(true);
+                saveDatabaseConfig();
+            }
+        } catch (Exception e) {
+            getLogger().warning("Could not load default database.yml from resources: " + e.getMessage());
+        }
+    }
+
+    public void saveDatabaseConfig() {
+        try {
+            databaseConfig.save(databaseConfigFile);
+        } catch (Exception e) {
+            getLogger().severe("Could not save database.yml: " + e.getMessage());
+        }
+    }
+
+    public FileConfiguration getDatabaseConfig() {
+        if (databaseConfig == null) {
+            reloadDatabaseConfig();
+        }
+        return databaseConfig;
     }
 
     private void registerCommands() {
@@ -34,15 +128,28 @@ public final class SimpleChat extends JavaPlugin {
             new MessageCommand(chatManager).register(this);
             new ReplyCommand(chatManager).register(this);
 
-            getLogger().info("All commands registered successfully using Paper CommandAPI!");
+            getLogger().info("All commands registered successfully!");
         } catch (Exception e) {
             getLogger().severe("Failed to register commands: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        UUID playerId = player.getUniqueId();
+
+        // Clear player cache when they leave
+        chatManager.clearPlayerCache(playerId);
+    }
+
     @Override
     public void onDisable() {
+        // Cleanup database connections
+        if (chatManager != null) {
+            chatManager.cleanup();
+        }
         getLogger().info("SimpleChat has been disabled!");
     }
 
