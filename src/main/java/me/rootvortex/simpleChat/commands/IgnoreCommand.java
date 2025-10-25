@@ -53,6 +53,12 @@ public class IgnoreCommand extends SimpleCommand {
             return true;
         }
 
+        // Check if player is already ignoring the target
+        if (chatManager.isIgnoring(player, target)) {
+            player.sendMessage("§cYou are already ignoring " + target.getName() + "!");
+            return true;
+        }
+
         if (chatManager.ignorePlayer(player, target)) {
             player.sendMessage("§6You are now ignoring " + target.getName() + ". You won't see their messages.");
         } else {
