@@ -1,0 +1,12 @@
+# SimpleChat Configuration
+
+# Chat Format Settings
+chat:
+  enabled: true
+  format: "&7{player}&8: &f{message}"
+
+# Messages
+messages:
+  prefix: "&6[Chat]&7"
+  reload-success: "&aConfiguration reloaded successfully!"
+  no-permission: "&cYou don't have permission to use this command!"

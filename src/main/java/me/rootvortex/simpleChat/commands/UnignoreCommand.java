@@ -1,5 +1,6 @@
 package me.rootvortex.simpleChat.commands;
 
+import me.rootvortex.simpleChat.SimpleChat;
 import me.rootvortex.simpleChat.managers.ChatManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -11,8 +12,8 @@ import java.util.List;
 
 public class UnignoreCommand extends SimpleCommand {
 
-    public UnignoreCommand(ChatManager chatManager) {
-        super(chatManager);
+    public UnignoreCommand(ChatManager chatManager, SimpleChat plugin) {
+        super(chatManager, plugin); // ADD PLUGIN PARAMETER
     }
 
     @Override

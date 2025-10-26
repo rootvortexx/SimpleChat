@@ -26,6 +26,9 @@ public final class SimpleChat extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        // ADD THIS LINE: Save default config
+        saveDefaultConfig();
+
         // Create and load database.yml
         setupDatabaseConfig();
 
@@ -41,8 +44,8 @@ public final class SimpleChat extends JavaPlugin implements Listener {
             return;
         }
 
-        // Register events
-        getServer().getPluginManager().registerEvents(new ChatListener(chatManager), this);
+        // Register events - UPDATE THIS LINE: pass 'this' to ChatListener
+        getServer().getPluginManager().registerEvents(new ChatListener(chatManager, this), this);
         getServer().getPluginManager().registerEvents(this, this); // Register for quit events
 
         // Register commands using Paper CommandAPI
@@ -117,16 +120,23 @@ public final class SimpleChat extends JavaPlugin implements Listener {
         return databaseConfig;
     }
 
+    public void reloadPluginConfig() {
+        reloadConfig();
+        getLogger().info("SimpleChat configuration reloaded!");
+    }
+
+
     private void registerCommands() {
         try {
             // Register commands using Paper's CommandAPI
-            new HideChatCommand(chatManager).register(this);
-            new IgnoreCommand(chatManager).register(this);
-            new UnignoreCommand(chatManager).register(this);
-            new IgnoreListCommand(chatManager).register(this);
-            new UnignoreAllCommand(chatManager).register(this);
-            new MessageCommand(chatManager).register(this);
-            new ReplyCommand(chatManager).register(this);
+            new HideChatCommand(chatManager, this).register(this);
+            new IgnoreCommand(chatManager, this).register(this);
+            new UnignoreCommand(chatManager, this).register(this);
+            new IgnoreListCommand(chatManager, this).register(this);
+            new UnignoreAllCommand(chatManager, this).register(this);
+            new MessageCommand(chatManager, this).register(this);
+            new ReplyCommand(chatManager, this).register(this);
+            new SimpleChatCommand(chatManager, this).register(this);
 
             getLogger().info("All commands registered successfully!");
         } catch (Exception e) {

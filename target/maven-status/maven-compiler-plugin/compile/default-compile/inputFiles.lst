@@ -4,6 +4,7 @@
 /home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/IgnoreListCommand.java
 /home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/MessageCommand.java
 /home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/ReplyCommand.java
+/home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/SimpleChatCommand.java
 /home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/SimpleCommand.java
 /home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/UnignoreAllCommand.java
 /home/vortex/IdeaProjects/SimpleChat/src/main/java/me/rootvortex/simpleChat/commands/UnignoreCommand.java
