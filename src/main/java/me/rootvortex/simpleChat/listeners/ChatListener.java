@@ -18,9 +18,13 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
         Player sender = event.getPlayer();
+        String originalMessage = event.getMessage();
         Set<Player> recipients = event.getRecipients();
 
-        // Filter recipients based on ignore settings
+        // ADD THIS SIMPLE FORMATTING LINE:
+        event.setFormat("§7%s§6 » §f%s"); // This changes "Player: message" to gray name + white message
+
+        // Filter recipients based on ignore settings (your existing code)
         Set<Player> filteredRecipients = chatManager.filterChatRecipients(sender, recipients);
 
         // Update the recipients
